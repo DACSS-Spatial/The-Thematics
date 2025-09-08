@@ -1,6 +1,8 @@
 ---
 title: "R Notebook"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r}
@@ -42,5 +44,46 @@ ggplot() + theme_light() +
           color="red")+
   coord_sf(datum = st_crs(africa)) 
   
+```
+
+```{r}
+library(leaflet)
+ddm_4326 <- st_transform(africaPopu_ddm, crs = 4326)
+leaflet() %>%
+  addTiles() %>%  
+  addCircleMarkers(data = ddm_4326,
+                   radius = 0.01,
+                   opacity = 0.1)
+```
+
+```{r}
+
+leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron)  %>%  
+  addCircleMarkers(data = ddm_4326,
+                   color="red",
+                   radius = 0.01,
+                   opacity = 0.1)
+```
+
+```{r}
+psm_4326 <- st_transform(africaPopu_psm, crs = 4326)
+leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron)  %>%  
+  addCircleMarkers(data = psm_4326,
+                   color="red", fillColor = "red",
+                   label = ~Country,
+                   radius = ~size/10)
+```
+
+```{r}
+choro_4326 <- st_transform(africa, crs = 4326)
+leaflet() %>%
+  addProviderTiles(providers$CartoDB.Positron)  %>%  
+  addPolygons(data = choro_4326,
+                   label = ~Country)
+```
+```{r}
+
 ```
 
