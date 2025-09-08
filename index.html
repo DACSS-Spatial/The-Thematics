@@ -7641,23 +7641,12 @@ a.anchor-link {
 
 <span class="n">someDataLink</span><span class="o">=</span><span class="s1">'WORLD/some_dataworld.csv'</span>
 
-<span class="n">someData</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">linkGitSession</span><span class="o">+</span><span class="n">someDataLink</span><span class="p">)</span>
+<span class="n">someData</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">linkGit</span><span class="o">+</span><span class="n">someDataLink</span><span class="p">)</span>
 
 <span class="c1">## data available</span>
 <span class="n">someData</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Pre-Processing:-Merging">Pre Processing: Merging<a class="anchor-link" href="#Pre-Processing:-Merging">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7702,24 +7691,9 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Preparing thematic maps requires <strong>social data</strong> <em>about</em> the geometry (line, polygon, point). The object <strong>countries</strong> has no social data, so the preprocessing requires geomerging.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Geo-Merging">Geo Merging<a class="anchor-link" href="#Geo-Merging">¶</a></h3><p>This is a critical preprocessing operation, as it is in charge of combining data sets, in this case combine a DF into a GDF. Some rules are needed:</p>
-<ul>
-<li>There is at least one common column needed to serve for the matches.</li>
-<li>The common columns, or KEYs, need contents to be written exactly in both columns.</li>
-<li>It is recommended that both KEYs are named the same.</li>
-</ul>
-<p>Here we have the KEYs:</p>
+<p>Preparing thematic maps requires <strong>social data</strong> <em>about</em> the geometry (line, polygon, point). The object <strong>countries</strong> has no social data, so the preprocessing requires merging the DF into the GDF.</p>
+<p>Merging is not a trivial process. For this case, it even required fuzzy merging.  You may see the process in this <a href="https://colab.research.google.com/drive/1iGTr8z1Bo8sitgg7uNcKh33pwleymb8O?usp=sharing">GoogleColab notebook</a>.</p>
+<p>This is the file produced on the Colab notebook:</p>
 </div>
 </div>
 </div>
@@ -7731,21 +7705,9 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">countries</span><span class="o">.</span><span class="n">COUNTRY</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">someData</span><span class="o">.</span><span class="n">Country</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">linkToIndicators</span><span class="o">=</span><span class="s2">"https://github.com/DACSS-Spatial/data_forSpatial/raw/refs/heads/main/WORLD/worldindicators.json"</span>
+<span class="n">theMapAndData</span><span class="o">=</span><span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">linkToIndicators</span><span class="p">)</span>
+<span class="n">theMapAndData</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -7758,556 +7720,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Let's solve the <em>country name</em> differences for the KEYs:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">countries</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">'COUNTRY'</span><span class="p">:</span><span class="s1">'Country'</span><span class="p">},</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>We can notice the different <em>case</em> in the KEYs. Let's work with uppercases:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">countries</span><span class="p">[</span><span class="s1">'Country'</span><span class="p">]</span><span class="o">=</span><span class="n">countries</span><span class="o">.</span><span class="n">Country</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>It is very unlikely the names are written the same. Let's verify:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">onlyDF</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">someData</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">countries</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="n">onlyGDF</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">countries</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">someData</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Check here:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">onlyDF</span> <span class="c1"># they did not find a match in the MAP GDF!</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>There are several countries in the DF that did not find a match in the GDF (map). Of course, most of them are in the map, let's see why they were not matched.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Fuzzy-merging">Fuzzy merging<a class="anchor-link" href="#Fuzzy-merging">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>We use this technique to detect similarities between strings. You need this package <strong>thefuzz</strong> (based on the <a href="https://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein algorithm</a>):</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># !pip install thefuzz</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>This is the basic idea:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">thefuzz.process</span><span class="w"> </span><span class="kn">import</span> <span class="n">extractOne</span> <span class="k">as</span> <span class="n">best</span>
-
-<span class="c1">## find the BEST match to 'BAHAMAS (THE)'</span>
-<span class="c1">## from all strings in 'onlyGDF'</span>
-
-<span class="n">best</span><span class="p">(</span><span class="s1">'BAHAMAS (THE)'</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>As you see, you get a coefficient value of 90 (the closer to 100 the better). That may be a reliable result.</p>
-<p>Let's do the same for all the unmatched countries:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1">## for each country in onlyDF, find the BEST match in onlyGDF</span>
-
-<span class="p">[(</span><span class="n">country</span><span class="p">,</span> <span class="n">best</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">))</span> <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">onlyDF</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Each element in the <em>list</em> above in in parentheses, for instance:</p>
-<pre><code>('TIMOR-LESTE', ('EAST TIMOR', 81))
-</code></pre>
-<p>That element has two elements:</p>
-<ul>
-<li><strong>'TIMOR-LESTE'</strong> from <em>onlyDF</em>, and</li>
-<li><strong>('EAST TIMOR', 81)</strong> which is the result from <em>best(country,onlyGDF)</em>. This last element, as we just saw above, shows the best match and the level of similarity (the higher the more similar).</li>
-</ul>
-<p>We can prepare a list where each element has three elements:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1">#or</span>
-<span class="p">[(</span><span class="n">country</span><span class="p">,</span> <span class="n">best</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="n">best</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">onlyDF</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>For instace, this element has 3 elements:</p>
-<pre><code> ('IRAN (ISLAMIC REPUBLIC OF)', 'IRAN', 90)
-</code></pre>
-<p>The level of similarity would guide us to make update (replace) the strings in one of the KEYs, so that the merging process works properly.</p>
-<p>Then, it would be better if we have a data frame instead of a list:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="n">country</span><span class="p">,</span> <span class="n">best</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="n">best</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">onlyDF</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Let's sort by the column '2' (the third):</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="n">country</span><span class="p">,</span> <span class="n">best</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="n">best</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">onlyDF</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The previous result helps make a plan based on these cases:</p>
-<ul>
-<li><strong>ESWATINI</strong> is always a problem, because it is also <em>SWAZILAND</em>.</li>
-<li><strong>KOREA (THE REPUBLIC OF)</strong> is not <em>NORTH KOREA</em>.</li>
-<li><strong>LAO PEOPLE'S DEMOCRATIC REPUBLIC (THE)</strong> is too long to match <em>LAOS</em> (if it exists in the map like that).</li>
-<li><strong>SAMOA</strong> is always a problem, because it is also <em>WESTERN SAMOA</em>.</li>
-</ul>
-<p>Based on this, we should see what our GDF has:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">countries</span><span class="o">.</span><span class="n">Country</span><span class="p">[</span><span class="n">countries</span><span class="o">.</span><span class="n">Country</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">'SWAZ|LAO|SAMOA|KORE'</span><span class="p">)]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Then, it makes sense to change those manually (notice the 'replace' uses Python dictionaries):</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># this is a {dictionary}</span>
-
-<span class="n">manualChanges</span><span class="o">=</span><span class="p">{</span><span class="s1">'SWAZILAND'</span><span class="p">:</span><span class="s1">'ESWATINI'</span><span class="p">,</span>
-               <span class="s1">'LAOS'</span><span class="p">:</span><span class="s2">"LAO PEOPLE'S DEMOCRATIC REPUBLIC (THE)"</span><span class="p">,</span>
-               <span class="s1">'SOUTH KOREA'</span><span class="p">:</span><span class="s1">'KOREA (THE REPUBLIC OF)'</span><span class="p">,</span>
-               <span class="s1">'WESTERN SAMOA'</span><span class="p">:</span><span class="s1">'SAMOA'</span><span class="p">,</span>
-              <span class="p">}</span>
-
-<span class="n">countries</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span><span class="o">=</span><span class="p">{</span><span class="s1">'Country'</span><span class="p">:</span><span class="n">manualChanges</span><span class="p">},</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>At this stage, we should recompute the differences:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># updating</span>
-<span class="n">onlyDF</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">someData</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">countries</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="n">onlyGDF</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">countries</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">someData</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>An re run this code:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># keeping high scores</span>
-
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="n">country</span><span class="p">,</span> <span class="n">best</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="n">best</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">onlyDF</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>All this is correct now!</p>
-<p>Let's prepare the changes:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># new {dictionary}</span>
-<span class="n">changesToDF</span><span class="o">=</span><span class="p">{</span><span class="n">country</span><span class="p">:</span> <span class="n">best</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">onlyDF</span><span class="p">}</span>
-<span class="n">changesToDF</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">someData</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">to_replace</span><span class="o">=</span><span class="p">{</span><span class="s1">'Country'</span><span class="p">:</span><span class="n">changesToDF</span><span class="p">},</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>What is left to match?</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># updating</span>
-<span class="n">onlyDF</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">someData</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">countries</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="n">onlyGDF</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="n">countries</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span><span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">someData</span><span class="o">.</span><span class="n">Country</span><span class="p">)</span>
-<span class="p">[(</span><span class="n">country</span><span class="p">,</span> <span class="n">best</span><span class="p">(</span><span class="n">country</span><span class="p">,</span><span class="n">onlyGDF</span><span class="p">))</span> <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">onlyDF</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Once you are here, merging can proceed:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1">## GDF to the 'left'</span>
-<span class="n">theMapAndData</span><span class="o">=</span><span class="n">countries</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">someData</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">'Country'</span><span class="p">)</span>
-<span class="n">theMapAndData</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>And our GDF has social data now!</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">theMapAndData</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>We should save this map of countries and their indicators in a new file:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">theMapAndData</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"worldindicators.json"</span><span class="p">)</span>
-</pre></div>
-</div>
+<p>As you see, the columns from the DF (<em>someData</em>) are now part of the GDF (<em>countries</em>), that is now in this new GDF <em>theMapAndData</em>.</p>
 </div>
 </div>
 </div>
@@ -9457,11 +8870,25 @@ Let me use the the Absolute deviation around class median (ADCM) to make the com
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'base'</span><span class="p">)</span>
-<span class="n">Africa_dots_8857</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'dots_ddm'</span><span class="p">)</span>
-<span class="n">Africa_8857_centroids</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'centroids_psm'</span><span class="p">)</span>
-<span class="n">Africa_8857_centroids_out</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'outlier_centroids_psm'</span><span class="p">)</span>
-<span class="n">Africa_8857_centroids_no_out</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'no_outlier_centroids_psm'</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'continent'</span><span class="p">)</span>
+<span class="n">Africa_dots_8857</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'population_ddm'</span><span class="p">)</span>
+<span class="n">Africa_8857_centroids</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'population_psm'</span><span class="p">)</span>
+<span class="n">Africa_8857_centroids_out</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'outlier_population_psm'</span><span class="p">)</span>
+<span class="n">Africa_8857_centroids_no_out</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'no_outlier_population_psm'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 </div>
 </div>
