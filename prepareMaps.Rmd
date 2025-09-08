@@ -1,0 +1,30 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+africaLink="https://github.com/DACSS-Spatial/data_forSpatial/raw/refs/heads/main/WORLD/africa_8857.gpkg"
+library(sf)
+st_layers(africaLink)
+```
+```{r, message=FALSE,results='hold'}
+africa <- st_read(africaLink, layer = "continent")
+africaPopu_ddm <- st_read(africaLink, layer = "population_ddm")
+africaPopu_psm <- st_read(africaLink, layer = "population_psm")
+
+```
+
+```{r}
+st_crs(africa)
+```
+
+```{r}
+ggplot() +
+  geom_sf(data = africa) +
+  coord_sf(datum = st_crs(africa)) + # The magic fix
+  scale_x_continuous(labels = label_number(scale = 1/1000, suffix = " km")) +
+scale_y_continuous(labels = label_number(scale = 1/1000, suffix = " km")) +
+  labs(x = "Easting", y = "Northing")
+```
+
