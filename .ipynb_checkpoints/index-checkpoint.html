@@ -8146,84 +8146,6 @@ The symbol is an aggregated raw value, and its size varies according to those va
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Keep in mind that the standard way of computing centroids may bring some trouble. Let´s plot Seychelles:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">base</span><span class="o">=</span><span class="n">Africa_8857</span><span class="p">[</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">Country</span><span class="o">==</span><span class="s2">"SEYCHELLES"</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">()</span>
-<span class="n">Africa_8857_centroids</span><span class="p">[</span><span class="n">Africa_8857_centroids</span><span class="o">.</span><span class="n">Country</span><span class="o">==</span><span class="s2">"SEYCHELLES"</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="n">base</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>A good alternative to centroids is <strong>representative_point()</strong> when dealing with complex multipolygons.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># replace the points</span>
-<span class="n">Africa_8857_centroids</span><span class="p">[</span><span class="s2">"geometry"</span><span class="p">]</span><span class="o">=</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">representative_point</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>We will keep that last result.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">base</span><span class="o">=</span><span class="n">Africa_8857</span><span class="p">[</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">Country</span><span class="o">==</span><span class="s2">"SEYCHELLES"</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">()</span>
-<span class="n">Africa_8857_centroids</span><span class="p">[</span><span class="n">Africa_8857_centroids</span><span class="o">.</span><span class="n">Country</span><span class="o">==</span><span class="s2">"SEYCHELLES"</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="n">base</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Preprocessing:-Computing-new-columns">Preprocessing: Computing new columns<a class="anchor-link" href="#Preprocessing:-Computing-new-columns">¶</a></h3><p>PPMs are not thematic maps to see precise values, but to reveal clear differences on the variable distribution used. As, human eyes are very limited to detect area differences, we may need to use some other tactics to help uncover some patterns.</p>
 <p>For example, let's confirm if we have outliers:</p>
 </div>
@@ -8953,6 +8875,20 @@ Let me use the the Absolute deviation around class median (ADCM) to make the com
 <span class="n">Africa_8857_centroids</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'population_psm'</span><span class="p">)</span>
 <span class="n">Africa_8857_centroids_out</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'outlier_population_psm'</span><span class="p">)</span>
 <span class="n">Africa_8857_centroids_no_out</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'no_outlier_population_psm'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 </div>
 </div>
