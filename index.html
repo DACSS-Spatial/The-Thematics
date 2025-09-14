@@ -7712,6 +7712,20 @@ a.anchor-link {
 </div>
 </div>
 </div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">theMapAndData</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -7719,7 +7733,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>As you see, the columns from the DF (someData) are now part of the GDF (countries), that is now in this new GDF theMapAndData.</p>
+<p>As you see, the columns from the DF (someData) are now part of the GDF (countries), that is now in this new GDF <strong>theMapAndData</strong>.</p>
 </div>
 </div>
 </div>
@@ -7783,9 +7797,10 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><strong>What variable to use?</strong> Let's go with population (countable).</p>
 <p>A DDM can serve as an effective way to show the distribution of people. The most critical tasks are:</p>
 <ul>
-<li><p>Dot Unit: Deciding how many people each dot should represent is key for visual clarity. This value should be chosen carefully to avoid oversaturation or sparsity.</p>
+<li><p>Unit per Dot: Deciding how many people each dot should represent is key for visual clarity. This value should be chosen carefully to avoid oversaturation or sparsity.</p>
 </li>
 <li><p>Dot Placement: The dots should be randomly distributed within each polygon to avoid misrepresenting the data.</p>
 </li>
@@ -7801,7 +7816,69 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Preprocessing:-UNIT-of-the-dots">Preprocessing: UNIT of the dots<a class="anchor-link" href="#Preprocessing:-UNIT-of-the-dots">¶</a></h3><p>We need to create a map of dots, a new layer. The source will be the Africa polygons we currently have. Let's do that first:</p>
+<h3 id="Preprocessing:-NEW-UNIT">Preprocessing: NEW UNIT<a class="anchor-link" href="#Preprocessing:-NEW-UNIT">¶</a></h3><p>How many people will the dot represent? There is some <strong>trial and error</strong> to make this decision, but it helps exploring the variable descriptives.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Africa</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">float_format</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1">'</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>From what we see, we should not choose 100 000 as the unit per dot. At least one country will have zero dots. Then, the trial and error is about choosing values like 1000, 10000, 20000, etc., but below 98187.</p>
+<p>If we chose 25000, this would be the amount of points within each polygon (country):</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">Africa</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"Country"</span><span class="p">)</span><span class="o">.</span><span class="n">population</span> <span class="o">/</span> <span class="mi">25000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>This is a safe option (no zeroes).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Preprocessing:-NEW-LAYER">Preprocessing: NEW LAYER<a class="anchor-link" href="#Preprocessing:-NEW-LAYER">¶</a></h3><p>We need to create a map of dots, a new layer. The source will be the Africa polygons we currently have. Let's do that first:</p>
 </div>
 </div>
 </div>
@@ -7815,8 +7892,32 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># a copy of Africa</span>
 <span class="n">temporal_gdf</span><span class="o">=</span><span class="n">Africa</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-<span class="c1"># the row names will be the country</span>
+<span class="n">temporal_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>the GeoDF <strong>temporal_gdf</strong> is just an independent copy of Africa, as you see all the geometries are MULTIPOLYGONS still. Let me replace the row names by the country name:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># the row names will be the country</span>
 <span class="n">temporal_gdf</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'Country'</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># we have this now</span>
@@ -7833,32 +7934,7 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Let's see the distribution of <em>population</em>:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">temporal_gdf</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Let's add a column to  temporal_gdf a new column, that represents the amount of dots to represent, in this case, population. Here, we propose that a dot represents 10,000 people:</p>
+<p>Let's create <strong>dots_per_country</strong>, the column that represents the amount of dots for each country (like we saw before):</p>
 </div>
 </div>
 </div>
@@ -7871,11 +7947,10 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># creating  column </span>
-<span class="n">unit_value</span> <span class="o">=</span> <span class="mi">10000</span> 
-<span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'num_dots'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'population'</span><span class="p">]</span> <span class="o">/</span> <span class="n">unit_value</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'dots_per_country'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Africa</span><span class="p">[</span><span class="s1">'population'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">25000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">values</span> <span class="c1"># notice .values!</span>
 
 <span class="c1"># see</span>
-<span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'num_dots'</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'dots_per_country'</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7888,18 +7963,7 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Preprocessing:-Dots-placement">Preprocessing: Dots placement<a class="anchor-link" href="#Preprocessing:-Dots-placement">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Since we know how many dots per country polygon we should have, now we need to place that amount of dots within the borders of the polygon:</p>
+<p>Let's find a <strong>random_location</strong> for the dots:</p>
 </div>
 </div>
 </div>
@@ -7912,9 +7976,45 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># enter 'sample_points()'</span>
-<span class="n">temporal_gdf</span><span class="o">.</span><span class="n">sample_points</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'num_dots'</span><span class="p">],</span><span class="n">rng</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">temporal_gdf</span><span class="o">.</span><span class="n">sample_points</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'dots_per_country'</span><span class="p">],</span><span class="n">rng</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>That was a critical step, you created a...</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">temporal_gdf</span><span class="o">.</span><span class="n">sample_points</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'dots_per_country'</span><span class="p">],</span><span class="n">rng</span><span class="o">=</span><span class="mi">123</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Take a look at one of this series' element:</p>
 </div>
 </div>
 </div>
@@ -7927,43 +8027,7 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># this is the case of Comoros:</span>
-<span class="n">temporal_gdf</span><span class="o">.</span><span class="n">sample_points</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'num_dots'</span><span class="p">],</span><span class="n">rng</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'COMOROS'</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Preprocessing:-building-GDF-from-GS">Preprocessing: building GDF from GS<a class="anchor-link" href="#Preprocessing:-building-GDF-from-GS">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The current result:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">temporal_gdf</span><span class="o">.</span><span class="n">sample_points</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'num_dots'</span><span class="p">],</span><span class="n">rng</span><span class="o">=</span><span class="mi">123</span><span class="p">))</span>
+<span class="n">temporal_gdf</span><span class="o">.</span><span class="n">sample_points</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'dots_per_country'</span><span class="p">],</span><span class="n">rng</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'COMOROS'</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -7988,7 +8052,7 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_dots</span><span class="o">=</span><span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="n">temporal_gdf</span><span class="o">.</span><span class="n">sample_points</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'num_dots'</span><span class="p">],</span><span class="n">rng</span><span class="o">=</span><span class="mi">123</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_dots</span><span class="o">=</span><span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="n">temporal_gdf</span><span class="o">.</span><span class="n">sample_points</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">temporal_gdf</span><span class="p">[</span><span class="s1">'dots_per_country'</span><span class="p">],</span><span class="n">rng</span><span class="o">=</span><span class="mi">123</span><span class="p">))</span>
 <span class="n">Africa_dots</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -8027,7 +8091,7 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Juts plot the polygons as the base, and the points as the layer on top!</p>
+<p>Here is our DDM:</p>
 </div>
 </div>
 </div>
@@ -8066,22 +8130,10 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">base</span><span class="o">=</span><span class="n">Africa</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="mi">8857</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span>
-                              <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">)</span>
-<span class="n">Africa_dots</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="mi">8857</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">markersize</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857</span><span class="o">=</span><span class="n">Africa</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="mi">8857</span><span class="p">)</span>
+<span class="n">Africa_dots_8857</span><span class="o">=</span><span class="n">Africa_dots</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="mi">8857</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Let's set our current layers to that crs:</p>
 </div>
 </div>
 </div>
@@ -8093,8 +8145,10 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857</span><span class="o">=</span><span class="n">Africa</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="mi">8857</span><span class="p">)</span>
-<span class="n">Africa_dots_8857</span><span class="o">=</span><span class="n">Africa_dots</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="mi">8857</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># new version</span>
+<span class="n">base</span><span class="o">=</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span>
+                              <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">)</span>
+<span class="n">Africa_dots_8857</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">markersize</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8107,7 +8161,7 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Thinking-in-R">Thinking in R<a class="anchor-link" href="#Thinking-in-R">¶</a></h3><p>Africa_dots_8857 has a column of multi-points as we know. Shapefiles can not deal with this structure not visual programs in R such as <strong>leaflet</strong>. Then, we need to split those multipoints using <strong>explode()</strong>:</p>
+<h3 id="Exporting-to-R?">Exporting to R?<a class="anchor-link" href="#Exporting-to-R?">¶</a></h3><p>Africa_dots_8857 has a column of multi-points as we know. Shapefiles can not deal with this structure not visual programs in R such as <strong>leaflet</strong>. Then, we need to split those multipoints using <strong>explode()</strong>:</p>
 </div>
 </div>
 </div>
@@ -8150,6 +8204,42 @@ A dot is an aggregated value, but it is constant for each dot.</p>
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>The function <strong>explodes()</strong> returns...</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">Africa_dots_8857</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>This is a safe option outside Python:</p>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8184,9 +8274,7 @@ The symbol is an aggregated raw value, and its size varies according to those va
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Preprocessing:-location-for-the-symbol">Preprocessing: location for the symbol<a class="anchor-link" href="#Preprocessing:-location-for-the-symbol">¶</a></h3><ol>
-<li>We need one symbol per polygon, an obvious choice is the centroid.</li>
-</ol>
+<h3 id="Preprocessing:-scale-the-variable-to-determine-size">Preprocessing: scale the variable to determine size<a class="anchor-link" href="#Preprocessing:-scale-the-variable-to-determine-size">¶</a></h3><p>How to adjust the size of a symbols based of population? We should not have symbol size five million!</p>
 </div>
 </div>
 </div>
@@ -8198,10 +8286,16 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857_locations</span> <span class="o">=</span> <span class="n">Africa_8857</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">##what about square root scaling</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="c1"># Africa_8857_locations will have a new geometry:</span>
-<span class="n">Africa_8857_locations</span><span class="p">[</span><span class="s1">'geometry'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Africa_8857_locations</span><span class="p">[</span><span class="s1">'geometry'</span><span class="p">]</span><span class="o">.</span><span class="n">centroid</span>
+<span class="n">max_size</span><span class="o">=</span><span class="mi">40</span>
+<span class="n">min_size</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">scaled_sizes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">population</span> <span class="o">-</span> <span class="n">Africa_8857</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">Africa_8857</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_size</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">min_size</span>
+
+<span class="n">scaled_sizes</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -8214,9 +8308,7 @@ The symbol is an aggregated raw value, and its size varies according to those va
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<ol start="2">
-<li>A size of varying values (not constant as in DDMs). Let's use population again.</li>
-</ol>
+<h3 id="Preprocessing:-create-new-layer">Preprocessing: create new layer<a class="anchor-link" href="#Preprocessing:-create-new-layer">¶</a></h3><p>Similar to DDM, the PSM is a new layer, built from the original polygons:</p>
 </div>
 </div>
 </div>
@@ -8228,7 +8320,65 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857_locations</span><span class="p">[</span><span class="s1">'size'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Africa_8857_locations</span><span class="p">[</span><span class="s1">'population'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mf">0.5</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857_symbols</span> <span class="o">=</span> <span class="n">Africa_8857</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'Country'</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">#this is just a copy (new index names)</span>
+<span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Let's set the <strong>size</strong> of the symbol:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857_symbols</span><span class="p">[</span><span class="s1">'size'</span><span class="p">]</span><span class="o">=</span><span class="n">scaled_sizes</span><span class="o">.</span><span class="n">values</span> <span class="c1"># notice .values!</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Preprocessing:-location-for-the-symbol">Preprocessing: location for the symbol<a class="anchor-link" href="#Preprocessing:-location-for-the-symbol">¶</a></h3><p>We need one symbol per polygon, an obvious choice is the centroid.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Africa_8857_locations will have a new geometry:</span>
+<span class="n">Africa_8857_symbols</span><span class="p">[</span><span class="s1">'geometry'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Africa_8857_symbols</span><span class="p">[</span><span class="s1">'geometry'</span><span class="p">]</span><span class="o">.</span><span class="n">centroid</span>
+
+<span class="c1"># see the geom is NOW a POINT</span>
+<span class="n">Africa_8857_symbols</span>
 </pre></div>
 </div>
 </div>
@@ -8256,10 +8406,10 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">base</span><span class="o">=</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span>
                       <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">)</span>
 <span class="c1"># Plot the centroids on top</span>
-<span class="n">Africa_8857_locations</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
-    <span class="n">markersize</span><span class="o">=</span><span class="n">Africa_8857_locations</span><span class="p">[</span><span class="s1">'size'</span><span class="p">],</span>
-    <span class="n">color</span><span class="o">=</span><span class="s1">'grey'</span>
+    <span class="n">markersize</span><span class="o">=</span><span class="n">Africa_8857_symbols</span><span class="p">[</span><span class="s1">'size'</span><span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8286,7 +8436,7 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">base</span><span class="o">=</span><span class="n">Africa_8857</span><span class="p">[</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">Country</span><span class="o">==</span><span class="s2">"SEYCHELLES"</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">()</span>
-<span class="n">Africa_8857_locations</span><span class="p">[</span><span class="n">Africa_8857_locations</span><span class="o">.</span><span class="n">Country</span><span class="o">==</span><span class="s2">"SEYCHELLES"</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="n">base</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span>
+<span class="n">Africa_8857_symbols</span><span class="p">[</span><span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">index</span><span class="o">==</span><span class="s2">"SEYCHELLES"</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="n">base</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8312,7 +8462,7 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># replace the points</span>
-<span class="n">Africa_8857_locations</span><span class="p">[</span><span class="s2">"geometry"</span><span class="p">]</span><span class="o">=</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">representative_point</span><span class="p">()</span>
+<span class="n">Africa_8857_symbols</span><span class="p">[</span><span class="s2">"geometry"</span><span class="p">]</span><span class="o">=</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">representative_point</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 </div>
 </div>
@@ -8338,7 +8488,7 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">base</span><span class="o">=</span><span class="n">Africa_8857</span><span class="p">[</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">Country</span><span class="o">==</span><span class="s2">"SEYCHELLES"</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">()</span>
-<span class="n">Africa_8857_locations</span><span class="p">[</span><span class="n">Africa_8857_locations</span><span class="o">.</span><span class="n">Country</span><span class="o">==</span><span class="s2">"SEYCHELLES"</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="n">base</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span>
+<span class="n">Africa_8857_symbols</span><span class="p">[</span><span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">index</span><span class="o">==</span><span class="s2">"SEYCHELLES"</span><span class="p">]</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="n">base</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8351,8 +8501,7 @@ The symbol is an aggregated raw value, and its size varies according to those va
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Preprocessing:-Improving-visual-message">Preprocessing: Improving visual message<a class="anchor-link" href="#Preprocessing:-Improving-visual-message">¶</a></h3><p>PPMs are not thematic maps to see precise values, but to reveal clear differences on the variable distribution used. As, human eyes are very limited to detect area differences, we may need to use some other tactics to help uncover some patterns.</p>
-<p>For example, let's confirm if we have outliers:</p>
+<h3 id="Preprocessing:-detect-outliers">Preprocessing: detect outliers<a class="anchor-link" href="#Preprocessing:-detect-outliers">¶</a></h3><p>PPMs are not thematic maps to see precise values, but to reveal clear differences on the variable distribution used. As human eyes are very limited to detect area differences, we may need to use some other tactics to confirm if we have outliers:</p>
 </div>
 </div>
 </div>
@@ -8364,7 +8513,7 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">boxplotInfo</span><span class="o">=</span><span class="n">Africa_8857_locations</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">'population'</span><span class="p">,</span><span class="n">return_type</span><span class="o">=</span><span class="s2">"dict"</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">boxplotInfo</span><span class="o">=</span><span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="s1">'population'</span><span class="p">,</span><span class="n">return_type</span><span class="o">=</span><span class="s2">"dict"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -8416,7 +8565,7 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857_locations</span><span class="p">[</span><span class="n">Africa_8857_locations</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">outliers</span><span class="p">)]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857_symbols</span><span class="p">[</span><span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">outliers</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span>
 </pre></div>
 </div>
 </div>
@@ -8441,10 +8590,10 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857_locations</span><span class="p">[</span><span class="s1">'population_outlier'</span><span class="p">]</span><span class="o">=</span><span class="n">Africa_8857_locations</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">outliers</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857_symbols</span><span class="p">[</span><span class="s1">'population_outlier'</span><span class="p">]</span><span class="o">=</span><span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">population</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">outliers</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span>
 
 <span class="c1">## see</span>
-<span class="n">Africa_8857_locations</span>
+<span class="n">Africa_8857_symbols</span>
 </pre></div>
 </div>
 </div>
@@ -8472,13 +8621,13 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">Africa_8857</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'white'</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
 
 <span class="c1"># Define your color map</span>
-<span class="n">mapcolor</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">'black'</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span> <span class="s1">'lightgrey'</span><span class="p">}</span>
+<span class="n">mapcolor</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">'red'</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span> <span class="s1">'grey'</span><span class="p">}</span>
 
 <span class="c1"># Plot the centroids on top</span>
-<span class="n">Africa_8857_locations</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+<span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
     <span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
-    <span class="n">markersize</span><span class="o">=</span><span class="n">Africa_8857_locations</span><span class="p">[</span><span class="s1">'size'</span><span class="p">],</span>
-    <span class="n">color</span><span class="o">=</span><span class="n">Africa_8857_locations</span><span class="p">[</span><span class="s1">'population_outlier'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">mapcolor</span><span class="p">)</span>
+    <span class="n">markersize</span><span class="o">=</span><span class="n">Africa_8857_symbols</span><span class="p">[</span><span class="s1">'size'</span><span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">Africa_8857_symbols</span><span class="p">[</span><span class="s1">'population_outlier'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">mapcolor</span><span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -8492,10 +8641,8 @@ The symbol is an aggregated raw value, and its size varies according to those va
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Here, we do a good job for outliers, but it is difficult to interprete the other ones. We could use some redundancy, but more work is needed:</p>
-<ol>
-<li>Create two new maps of locations:</li>
-</ol>
+<h2 id="Exporting-to-R?">Exporting to R?<a class="anchor-link" href="#Exporting-to-R?">¶</a></h2><p>It is <strong>almost</strong> ready. R will use the new layer and the location of the points. However, R's ggplot needs NOT your size variable. Give GGPLOT the <em>population</em> variables and use <strong>scale_size_area()</strong> to manage the size and the legend.</p>
+<p>Also, notice that I have the country names as index, and the other columns might be redundant (they are in <strong>Africa_8857</strong>):</p>
 </div>
 </div>
 </div>
@@ -8507,27 +8654,12 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Create explicit copies of the DataFrames</span>
-<span class="n">Africa_8857_locations_out</span> <span class="o">=</span> <span class="n">Africa_8857_locations</span><span class="p">[</span><span class="n">Africa_8857_locations</span><span class="o">.</span><span class="n">population_outlier</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">Africa_8857_locations_no_out</span> <span class="o">=</span> <span class="n">Africa_8857_locations</span><span class="p">[</span><span class="n">Africa_8857_locations</span><span class="o">.</span><span class="n">population_outlier</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<ol start="2">
-<li>Re plot the three layers, using some color gradient for the non-outliers:</li>
-</ol>
-</div>
-</div>
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -8536,22 +8668,25 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">base</span><span class="o">=</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'white'</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">## then</span>
+<span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'iso2'</span><span class="p">,</span> <span class="s1">'region'</span><span class="p">,</span> <span class="s1">'fragility'</span><span class="p">,</span> <span class="s1">'co2'</span><span class="p">,</span> <span class="s1">'sq_km'</span><span class="p">,</span> <span class="s1">'num_airports'</span><span class="p">,</span><span class="s1">'mobiles'</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">Africa_8857_locations_no_out</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
-    <span class="n">markersize</span><span class="o">=</span><span class="n">Africa_8857_locations_no_out</span><span class="p">[</span><span class="s1">'size'</span><span class="p">],</span>
-    <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">,</span>
-    <span class="n">c</span><span class="o">=</span><span class="n">Africa_8857_locations_no_out</span><span class="p">[</span><span class="s1">'size'</span><span class="p">],</span>
-    <span class="n">cmap</span><span class="o">=</span><span class="s1">'Blues_r'</span>
-<span class="p">)</span>
-<span class="n">Africa_8857_locations_out</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">base</span><span class="p">,</span>
-    <span class="n">markersize</span><span class="o">=</span><span class="n">Africa_8857_locations_out</span><span class="p">[</span><span class="s1">'size'</span><span class="p">],</span>
-    <span class="n">color</span><span class="o">=</span><span class="s1">'orange'</span>
-<span class="p">)</span>
+<span class="c1">## final for R:</span>
+<span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Done!</p>
 </div>
 </div>
 </div>
@@ -8582,6 +8717,17 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">population</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="s2">"YlOrRd"</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="Preprocessing:-Normalization">Preprocessing: Normalization<a class="anchor-link" href="#Preprocessing:-Normalization">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8626,8 +8772,21 @@ The symbol is an aggregated raw value, and its size varies according to those va
 <li>Ratios</li>
 <li>Averages</li>
 </ul>
-<p>Population by area is a density indicator. This is a real number (not an integer), so most of the time the color gradient might  not be
-that useful to reveal some pattern visually. Then, we often discretize (or bin) the indicator computed.</p>
+<p>This is a density:</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857</span><span class="p">[</span><span class="s1">'population_density'</span><span class="p">]</span><span class="o">=</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">population</span><span class="o">/</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">sq_km</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -8649,7 +8808,8 @@ that useful to reveal some pattern visually. Then, we often discretize (or bin) 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Now, we want to cut the variable. Run the next code to make sure you have tose packages:</p>
+<p>Population by area is a density indicator. This is a real number (not an integer), so most of the time the color gradient might  not be that useful to reveal some pattern visually. Then, we often discretize (or bin) the indicator computed.
+Now, we want to cut the variable. Run the next code to make sure you have tose packages:</p>
 </div>
 </div>
 </div>
@@ -8663,31 +8823,6 @@ that useful to reveal some pattern visually. Then, we often discretize (or bin) 
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1">## do you have these installed?</span>
 <span class="c1"># ! pip show numba mapclassify numpy</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>We will discretize this:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857</span><span class="p">[</span><span class="s1">'population_density'</span><span class="p">]</span><span class="o">=</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">population</span><span class="o">/</span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">sq_km</span>
 </pre></div>
 </div>
 </div>
@@ -8992,37 +9127,7 @@ Let me use the the Absolute deviation around class median (ADCM) to make the com
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># for PSMs</span>
-<span class="n">Africa_8857_locations</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># for PSMs</span>
-<span class="n">Africa_8857_locations_out</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># for PSMs</span>
-<span class="n">Africa_8857_locations_no_out</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -9049,9 +9154,7 @@ Let me use the the Absolute deviation around class median (ADCM) to make the com
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">Africa_8857</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'continent'</span><span class="p">)</span>
 <span class="n">Africa_dots_8857</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'population_ddm'</span><span class="p">)</span>
-<span class="n">Africa_8857_locations</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'population_psm'</span><span class="p">)</span>
-<span class="n">Africa_8857_locations_out</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'outlier_population_psm'</span><span class="p">)</span>
-<span class="n">Africa_8857_locations_no_out</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'no_outlier_population_psm'</span><span class="p">)</span>
+<span class="n">Africa_8857_symbols</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s2">"africa_8857.gpkg"</span><span class="p">,</span><span class="n">driver</span><span class="o">=</span><span class="s1">'GPKG'</span><span class="p">,</span><span class="n">layer</span><span class="o">=</span><span class="s1">'population_psm'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
