@@ -1,7 +1,10 @@
 ---
-title: "My Storyboard at DACSS - tabs"
-output: 
-  flexdashboard::flex_dashboard
+title: "THEMATICS - tabs"
+output:
+  flexdashboard::flex_dashboard:
+    navbar:
+      - { icon: "fa-github", href: "https://github.com/DACSS-Spatial/The-Thematics", align: right }
+
 ---
 
 ```{r setup, include=FALSE}
